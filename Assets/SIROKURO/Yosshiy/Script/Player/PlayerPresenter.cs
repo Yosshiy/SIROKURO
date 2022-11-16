@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UniRx;
+using Zenject;
+using Player.Model;
 
 public class PlayerPresenter : MonoBehaviour
 {
     PlayerMover Mover;
-
+    PlayerModel Model;
+    [Inject]
+    readonly IInputEventProvider MyInput;
 
     private void Awake()
     {
         Mover = GetComponent<PlayerMover>();
+        Model = new PlayerModel();
 
-        Observable.EveryUpdate()
-             .Where(x => Input.GetAxis("Horizontal") != 0)
+        MyInput.Direction
              .Subscribe(x =>
              {
-                 Mover.Move(2,Input.GetAxis("Horizontal"));
+                 Mover.Move(Model.Speed,x);
              });
 
-        Observable.EveryUpdate()
-             .Where(x => Input.GetKeyDown(KeyCode.Space))
-             .Subscribe(x => Mover.Jump(5));
+        MyInput.Jump
+            .Where(x => x == true)
+            .Subscribe(x => Mover.Jump(Model.JumpPower));
     }
 }
