@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMover : BasePlayer
+sealed class PlayerMover : BasePlayer
 {
     Rigidbody2D PlayerRb;
 
@@ -11,10 +11,9 @@ public class PlayerMover : BasePlayer
         PlayerRb = GetComponent<Rigidbody2D>();
     }
 
-    public void Move(float speed, float intensity_x)
+    public void Move(float speed,Vector2 direction)
     {
-        var newvector = Vector2.right * intensity_x;
-        PlayerRb.velocity = newvector.normalized * speed;
+        PlayerRb.AddForce(direction);
     }
 
     public void Jump(float jump)
