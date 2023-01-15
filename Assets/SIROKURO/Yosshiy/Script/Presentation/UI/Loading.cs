@@ -23,7 +23,7 @@ public class Loading : MonoBehaviour
     void Aa()
     {
         Musk.rectTransform
-            .DOSizeDelta(new Vector2(Icon.rectTransform.sizeDelta.x, Icon.rectTransform.sizeDelta.y), 1.5f)
+            .DOSizeDelta(new Vector2(0, 0), 1.5f)
             .SetEase(Ease.OutBounce)
             .OnComplete(() => Bb());
     }
@@ -31,9 +31,9 @@ public class Loading : MonoBehaviour
     void Bb()
     {
         var y = 600;
-        sequence.Join(Musk.rectTransform
+        sequence.Join(Icon.rectTransform
             .DORotate(new Vector3(0, 0, 180), 1, RotateMode.FastBeyond360));
-        sequence.Join(Musk.rectTransform
+        sequence.Join(Icon.rectTransform
             .DOAnchorPosY(y, 1));
         sequence.Join(Icon.DOFade(0, 1));
 
